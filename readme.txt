@@ -1,4 +1,4 @@
-=== World of Warcraft (WoW) Recruitment ===
+=== Guild Recruitment Widget for WoW ===
 Contributors: Athlios
 Donate Link: https://www.paypal.com/paypalme/athlios
 Tags: WOW, Warcraft, Guild, World of Warcraft, Recruitment
@@ -9,20 +9,22 @@ Stable tag: 2.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-A widget that helps to display recruitment message of a World of Warcraft guild, also can be used for other games that have different classes.
+A sidebar widget for displaying World of Warcraft guild recruitment priorities.
 
 == Description ==
 
-A widget that displays recruitment messages for World of Warcraft.
-It's a simple panel customizable with some CSS techniques.
+A sidebar widget for displaying World of Warcraft guild recruitment priorities.
+Use it to list the classes your guild is recruiting, mark each one as High, Medium, or Closed, and add short notes for specific needs.
+The widget includes icon size options, configurable class/status labels, and support for current WoW classes including Evoker.
 
 * please always save the widget once before and after every update, 
 
 New in version 2.0:
 
-* added new classes
-* updated all colors
-* this plugin now uses npm to build SCSS stylesheets, see source code for details, mixins will be useful if you're building your own wordpress theme
+* added support for current World of Warcraft classes, including Evoker
+* refreshed class colors
+* modernized the plugin for current WordPress and PHP versions
+* improved sanitization and escaping in admin and widget output
 
 ** I will be actively updating this plugin.
 ** This plugin is property of Gordian Knot but we do share it for free.
@@ -34,12 +36,11 @@ If you found bugs or want to suggest improvements, please open an issue on the p
 
 == Installation ==
 
-1. Unpack and Upload all files to the `/wp-content/plugins/world-of-warcraft-wow-recruitment` directory
-2. Activate the plugin through the **Plugins** menu in WordPress
-3. Drag **World of Warcraft (WoW) Recruitment** to your sidebar
-4. Enter details and done!
-5. *(optional)* go to **Settings > World of Warcraft (WoW) Recruitment** to set up all classes and status texts to your own language
-6. *(optional)* if you're using a theme with narrow sidebar, go to **Settings > World of Warcraft (WoW) Recruitment** and choose "For Narrow Sidebars" under "Theme"
+1. Upload the plugin files to the `/wp-content/plugins/guild-recruitment-widget-for-wow` directory.
+2. Activate the plugin through the **Plugins** menu in WordPress.
+3. Go to **Appearance > Widgets** and add **Guild Recruitment Widget for WoW** to your sidebar.
+4. Add your recruitment rows, statuses, and notes in the widget settings.
+5. Go to **Guild Recruitment** to customize class labels, status labels, and icon size.
 
 
 == Screenshots ==
@@ -50,19 +51,14 @@ If you found bugs or want to suggest improvements, please open an issue on the p
 == Changelog ==
 
 = 2.0 =
-* major version bump
-* cumulative modernization and PHP 8 compatibility work
+* added support for current World of Warcraft classes, including Evoker
+* refreshed class colors
+* modernized the plugin for current WordPress and PHP versions
+* improved sanitization and escaping in admin and widget output
 
 
 = 1.5.0 =
-* modernized for current WordPress and PHP compatibility
-* hardened admin/settings sanitization and output escaping
-* refreshed plugin metadata and include loading patterns
+* improved compatibility with current WordPress and PHP versions
+* strengthened admin and widget data handling
+* refreshed plugin metadata and loading behavior
 
-
-== Development Note ==
-require [npm](https://www.npmjs.com/) to build stylesheets
-
-<code>npm run build</code> to build stylesheets continuously to ./css/ until Ctrl+C to terminate, test page can be viewed at http://localhost:8001
-
-only tested on Mac, should work in *nix platforms, should work in Windows too

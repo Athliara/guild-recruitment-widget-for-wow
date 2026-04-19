@@ -1,7 +1,7 @@
 {
-  "name": "world-of-warcraft-recruitment",
+  "name": "guild-recruitment-widget-for-wow",
   "version": "2.0",
-  "description": "World of Warcraft (WoW) Recruitment for Wordpress",
+  "description": "Guild Recruitment Widget for WoW for Wordpress",
   "scripts": {
     "http-server": "./node_modules/http-server/bin/http-server",
     "node-sass": "./node_modules/node-sass/bin/node-sass",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Athliara/World-of-Warcraft-WoW-Recruitment.git"
+    "url": "git+https://github.com/Athliara/guild-recruitment-widget-for-wow.git"
   },
   "author": "Athlios",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/Athliara/World-of-Warcraft-WoW-Recruitment/issues"
+    "url": "https://github.com/Athliara/guild-recruitment-widget-for-wow/issues"
   },
-  "homepage": "https://github.com/Athliara/World-of-Warcraft-WoW-Recruitment",
+  "homepage": "https://github.com/Athliara/guild-recruitment-widget-for-wow",
   "devDependencies": {
     "http-server": "^0.8.5",
     "node-sass": "^3.4.2"
