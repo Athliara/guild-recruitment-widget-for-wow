@@ -1,6 +1,6 @@
 {
   "name": "guild-recruitment-widget-for-wow",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Guild Recruitment Widget for WoW for Wordpress",
   "scripts": {
     "http-server": "./node_modules/http-server/bin/http-server",

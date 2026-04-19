@@ -1,14 +1,44 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /**
- * World of Warcraft (WoW) Recruitment class.
+ * Guild Recruitment Widget for WoW class.
  * This class handles everything that needs to be handled with the widget:
  * the settings, form, display, and update.
  *
  * @since 1.0
  */
-class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
+class Athlios_Wow_Recruit_Widget extends WP_Widget
 {
+    private static function get_default_row_classes()
+    {
+        return array(
+            'deathknight',
+            'demonhunter',
+            'druid',
+            'evoker',
+            'hunter',
+            'mage',
+            'monk',
+            'paladin',
+            'priest',
+            'rogue',
+            'shaman',
+            'warlock',
+            'warrior',
+        );
+    }
+
+    private static function get_default_row_class($index)
+    {
+        $default_classes = self::get_default_row_classes();
+
+        return isset($default_classes[$index]) ? $default_classes[$index] : 'deathknight';
+    }
+
 
     /**
      * Widget setup.
@@ -17,15 +47,15 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
     {
         /* Widget settings. */
         $widget_ops = array(
-            'classname' => 'world-of-warcraft-wow-recruitment',
-            'description' => __('Displays your guild\'s recruitment status.', 'world-of-warcraft-wow-recruitment')
+            'classname' => 'guild-recruitment-widget-for-wow',
+            'description' => __('Displays your guild\'s recruitment status.', 'guild-recruitment-widget-for-wow')
         );
 
         /* Widget control settings. */
-        $control_ops = array('width' => 500, 'height' => 600, 'id_base' => 'world-of-warcraft-wow-recruitment');
+        $control_ops = array('width' => 500, 'height' => 600, 'id_base' => 'guild-recruitment-widget-for-wow');
 
         /* Create the widget. */
-        parent::__construct('world-of-warcraft-wow-recruitment', __('World of Warcraft (WoW) Recruitment', 'world-of-warcraft-wow-recruitment'), $widget_ops, $control_ops);
+        parent::__construct('guild-recruitment-widget-for-wow', __('Guild Recruitment Widget for WoW', 'guild-recruitment-widget-for-wow'), $widget_ops, $control_ops);
     }
 
     /**
@@ -51,7 +81,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
             'wr_width' => '100%',
             'message' => '',
             'wr_tooltip' => '[class]',
-            'wr_max_row' => 15,
+            'wr_max_row' => 13,
         ));
 
         $title = apply_filters('widget_title', $instance['title']);
@@ -97,7 +127,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         $wr_data = array();
         for ($r = 0; $r < $wr_max_row; $r++) {
             if (!isset($instance['wr_row_' . $r . '_class'])) {
-                $instance['wr_row_' . $r . '_class'] = 'deathknight';
+                $instance['wr_row_' . $r . '_class'] = self::get_default_row_class($r);
             }
             if (!isset($instance['wr_row_' . $r . '_status'])) {
                 $instance['wr_row_' . $r . '_status'] = 0;
@@ -108,7 +138,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         }
 //prepare for sorting machanim
         for ($r = 0; $r < $wr_max_row; $r++) {
-            $row_class = isset($instance['wr_row_' . $r . '_class']) ? (string) $instance['wr_row_' . $r . '_class'] : 'deathknight';
+            $row_class = isset($instance['wr_row_' . $r . '_class']) ? (string) $instance['wr_row_' . $r . '_class'] : self::get_default_row_class($r);
             $row_status = isset($instance['wr_row_' . $r . '_status']) ? (int) $instance['wr_row_' . $r . '_status'] : 0;
             $row_note = isset($instance['wr_row_' . $r . '_note']) ? (string) $instance['wr_row_' . $r . '_note'] : '';
 
@@ -131,9 +161,9 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
             }
         }
 
-//usort($wr_data,'wr_class_sort' );
+// Sort recruitment rows by status and class.
         if (!empty($wr_data)) {
-            usort($wr_data, array(__CLASS__, 'wr_sort_rows'));
+            usort($wr_data, array(__CLASS__, 'athlios_wow_recruit_sort_rows'));
         }
 
         /**
@@ -231,7 +261,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
     /**
      * Stable sort by status (desc), then class key (asc).
      */
-    private static function wr_sort_rows($a, $b)
+    private static function athlios_wow_recruit_sort_rows($a, $b)
     {
         $a_status = isset($a['status']) ? (int) $a['status'] : 0;
         $b_status = isset($b['status']) ? (int) $b['status'] : 0;
@@ -254,10 +284,11 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         global $athlios_wow_recruit_class;
 
         $instance = is_array($old_instance) ? $old_instance : array();
-        $wr_max_row = isset($instance['wr_max_row']) ? intval($instance['wr_max_row']) : 15;
+        $wr_max_row = isset($instance['wr_max_row']) ? intval($instance['wr_max_row']) : 13;
 
         $instance['wr_id'] = sanitize_title(isset($new_instance['wr_id']) ? $new_instance['wr_id'] : '');
-        $instance['wr_max_row'] = isset($new_instance['wr_max_row']) ? intval($new_instance['wr_max_row']) : 15;
+        $instance['wr_max_row'] = isset($new_instance['wr_max_row']) ? intval($new_instance['wr_max_row']) : 13;
+        $wr_max_row = $instance['wr_max_row'];
         $instance['wr_tooltip'] = sanitize_text_field(isset($new_instance['wr_tooltip']) ? $new_instance['wr_tooltip'] : '[class]');
 
         $new_width = isset($new_instance['wr_width']) ? sanitize_text_field($new_instance['wr_width']) : '100%';
@@ -274,9 +305,9 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
 
         $allowed_classes = array_keys($athlios_wow_recruit_class);
         for ($r = 0; $r < $wr_max_row; $r++) {
-            $class_key = isset($new_instance['wr_row_' . $r . '_class']) ? sanitize_key($new_instance['wr_row_' . $r . '_class']) : 'deathknight';
+            $class_key = isset($new_instance['wr_row_' . $r . '_class']) ? sanitize_key($new_instance['wr_row_' . $r . '_class']) : self::get_default_row_class($r);
             if (!in_array($class_key, $allowed_classes, true)) {
-                $class_key = 'deathknight';
+                $class_key = self::get_default_row_class($r);
             }
 
             $status = isset($new_instance['wr_row_' . $r . '_status']) ? intval($new_instance['wr_row_' . $r . '_status']) : 0;
@@ -308,13 +339,13 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
             'title' => '',
             'title_url' => '',
             'message' => '',
-            'wr_max_row' => '15',
+            'wr_max_row' => '13',
             'wr_tooltip' => '[class]',
             'wr_width' => '100%',
         );
         $instance = wp_parse_args((array)$instance, $defaults);
 
-        $wr_max_row = isset($instance['wr_max_row']) ? intval($instance['wr_max_row']) : 15;
+        $wr_max_row = isset($instance['wr_max_row']) ? intval($instance['wr_max_row']) : 13;
 
         $r = 0;
         foreach ($athlios_wow_recruit_class as $k => $v) {
@@ -330,16 +361,16 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         ?>
 
         <div style="float: right;">
-            <a href="<?php echo esc_url(WR_HELP_URL); ?>" target="_blank" rel="noopener noreferrer"> <img
-                    src="<?php echo esc_url(WR_INFO_ICON_URL); ?>" title="<?php esc_attr_e('More Info', 'world-of-warcraft-wow-recruitment'); ?>"
-                    alt="<?php esc_attr_e('View more info', 'world-of-warcraft-wow-recruitment'); ?>"/>
-            </a> <a href="<?php echo esc_url(WR_BUG_URL); ?>" target="_blank" rel="noopener noreferrer"> <img
-                    src="<?php echo esc_url(WR_BUG_ICON_URL); ?>" title="<?php esc_attr_e('Report Bugs', 'world-of-warcraft-wow-recruitment'); ?>"
-                    alt="<?php esc_attr_e('Report bugs', 'world-of-warcraft-wow-recruitment'); ?>"/>
+            <a href="<?php echo esc_url(ATHLIOS_WOW_RECRUIT_HELP_URL); ?>" target="_blank" rel="noopener noreferrer"> <img
+                    src="<?php echo esc_url(ATHLIOS_WOW_RECRUIT_INFO_ICON_URL); ?>" title="<?php esc_attr_e('More Info', 'guild-recruitment-widget-for-wow'); ?>"
+                    alt="<?php esc_attr_e('View more info', 'guild-recruitment-widget-for-wow'); ?>"/>
+            </a> <a href="<?php echo esc_url(ATHLIOS_WOW_RECRUIT_BUG_URL); ?>" target="_blank" rel="noopener noreferrer"> <img
+                    src="<?php echo esc_url(ATHLIOS_WOW_RECRUIT_BUG_ICON_URL); ?>" title="<?php esc_attr_e('Report Bugs', 'guild-recruitment-widget-for-wow'); ?>"
+                    alt="<?php esc_attr_e('Report bugs', 'guild-recruitment-widget-for-wow'); ?>"/>
             </a>
         </div>
         <p>
-            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title (optional):', 'world-of-warcraft-wow-recruitment'); ?>
+            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title (optional):', 'guild-recruitment-widget-for-wow'); ?>
             </label> <input type="text"
                             id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                             name="<?php echo esc_attr($this->get_field_name('title')); ?>"
@@ -347,7 +378,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         </p>
         <p>
             <label
-                for="<?php echo esc_attr($this->get_field_id('title_url')); ?>"><?php esc_html_e('Recruitment Page URL (optional, if not empty please use full url):', 'world-of-warcraft-wow-recruitment'); ?>
+                for="<?php echo esc_attr($this->get_field_id('title_url')); ?>"><?php esc_html_e('Recruitment Page URL (optional, if not empty please use full url):', 'guild-recruitment-widget-for-wow'); ?>
             </label> <input type="text"
                             id="<?php echo esc_attr($this->get_field_id('title_url')); ?>"
                             name="<?php echo esc_attr($this->get_field_name('title_url')); ?>"
@@ -356,7 +387,7 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
 
         <p>
             <label
-                for="<?php echo esc_attr($this->get_field_id('message')); ?>"><?php esc_html_e('Recruitment Message (optional)', 'world-of-warcraft-wow-recruitment'); ?>
+                for="<?php echo esc_attr($this->get_field_id('message')); ?>"><?php esc_html_e('Recruitment Message (optional)', 'guild-recruitment-widget-for-wow'); ?>
             </label>
 	<textarea rows="3" cols="1"
               id="<?php echo esc_attr($this->get_field_id('message')); ?>"
@@ -366,14 +397,14 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         <p>
 
 
-            <label for="<?php echo esc_attr($this->get_field_id('wr_max_row')); ?>"><?php esc_html_e('Number of rows:', 'world-of-warcraft-wow-recruitment'); ?>
+            <label for="<?php echo esc_attr($this->get_field_id('wr_max_row')); ?>"><?php esc_html_e('Number of rows:', 'guild-recruitment-widget-for-wow'); ?>
             </label> <input type="text"
                             id="<?php echo esc_attr($this->get_field_id('wr_max_row')); ?>"
                             name="<?php echo esc_attr($this->get_field_name('wr_max_row')); ?>"
                             value="<?php echo esc_attr($instance['wr_max_row']); ?>" style="width: 10%;"/>&nbsp;&nbsp;
 
 
-            <label for="<?php echo esc_attr($this->get_field_id('wr_width')); ?>"><?php esc_html_e('Item width:', 'world-of-warcraft-wow-recruitment'); ?>
+            <label for="<?php echo esc_attr($this->get_field_id('wr_width')); ?>"><?php esc_html_e('Item width:', 'guild-recruitment-widget-for-wow'); ?>
             </label> <input type="text"
                             id="<?php echo esc_attr($this->get_field_id('wr_width')); ?>"
                             name="<?php echo esc_attr($this->get_field_name('wr_width')); ?>"
@@ -383,9 +414,9 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         </p>
         <p>
             <label
-                for="<?php echo esc_attr($this->get_field_id('wr_tooltip')); ?>"><?php esc_html_e('Tooltip pattern:', 'world-of-warcraft-wow-recruitment'); ?>
+                for="<?php echo esc_attr($this->get_field_id('wr_tooltip')); ?>"><?php esc_html_e('Tooltip pattern:', 'guild-recruitment-widget-for-wow'); ?>
             </label>
-            (<em><?php esc_html_e('Tokens available:', 'world-of-warcraft-wow-recruitment'); ?></em>
+            (<em><?php esc_html_e('Tokens available:', 'guild-recruitment-widget-for-wow'); ?></em>
             [class], [status], [note])
             <br/>
             <input type="text"
@@ -397,15 +428,15 @@ class World_Of_Warcraft_Recruitment_Widget extends WP_Widget
         <table>
             <thead>
             <tr>
-                <th style="text-align: left; width: 20%;"><?php esc_html_e('Class', 'world-of-warcraft-wow-recruitment'); ?></th>
-                <th style="text-align: left; width: 20%;"><?php esc_html_e('Status', 'world-of-warcraft-wow-recruitment'); ?></th>
-                <th style="text-align: left;"><?php esc_html_e('Note', 'world-of-warcraft-wow-recruitment'); ?></th>
+                <th style="text-align: left; width: 20%;"><?php esc_html_e('Class', 'guild-recruitment-widget-for-wow'); ?></th>
+                <th style="text-align: left; width: 20%;"><?php esc_html_e('Status', 'guild-recruitment-widget-for-wow'); ?></th>
+                <th style="text-align: left;"><?php esc_html_e('Note', 'guild-recruitment-widget-for-wow'); ?></th>
             </tr>
             </thead>
             <tbody>
             <?php
             for ($r = 0; $r < $wr_max_row; $r++) {
-                $row_class = isset($instance['wr_row_' . $r . '_class']) ? $instance['wr_row_' . $r . '_class'] : 'deathknight';
+                $row_class = isset($instance['wr_row_' . $r . '_class']) ? $instance['wr_row_' . $r . '_class'] : self::get_default_row_class($r);
                 $row_status = isset($instance['wr_row_' . $r . '_status']) ? $instance['wr_row_' . $r . '_status'] : '0';
                 if ((string)$row_status === '1') {
                     $row_status = '2';

@@ -5,7 +5,7 @@ Tags: WOW, Warcraft, Guild, World of Warcraft, Recruitment
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,12 +19,12 @@ The widget includes icon size options, configurable class/status labels, and sup
 
 * please always save the widget once before and after every update, 
 
-New in version 2.0:
+New in version 2.1:
 
-* added support for current World of Warcraft classes, including Evoker
-* refreshed class colors
-* modernized the plugin for current WordPress and PHP versions
-* improved sanitization and escaping in admin and widget output
+* added a direct Settings link on the Plugins screen
+* moved plugin settings to a top-level Guild Recruitment admin page
+* refreshed the settings page with a banner and Theme, Status, and Classes tabs
+* preset new widgets with 13 alphabetized class rows
 
 ** I will be actively updating this plugin.
 ** This plugin is property of Gordian Knot but we do share it for free.
@@ -49,6 +49,15 @@ If you found bugs or want to suggest improvements, please open an issue on the p
 2. Dark theme, small icons
 
 == Changelog ==
+
+= 2.1 =
+* added a Settings link on the Plugins screen before Deactivate
+* moved settings to a top-level Guild Recruitment admin page with the shared WoW logo
+* redesigned the settings page with a banner and Theme, Status, and Classes tabs
+* removed the custom stylesheet option and always load the bundled widget styles
+* preset new widget instances with 13 alphabetized class rows
+* refreshed public plugin details, installation text, and changelog copy
+
 
 = 2.0 =
 * added support for current World of Warcraft classes, including Evoker

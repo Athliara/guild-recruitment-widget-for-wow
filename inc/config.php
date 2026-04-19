@@ -26,7 +26,6 @@ $athlios_wow_recruit_defaults = array(
     'status1' => 'Medium',
     'status2' => 'Medium',
     'status3' => 'High',
-    'custom_style' => 0,
     'theme' => '',
     'display_closed' => 0,
 );
@@ -60,16 +59,13 @@ $athlios_wow_recruit_class = array(
     'evoker' => $athlios_wow_recruit_options['class12'],
 );
 
-if (!$athlios_wow_recruit_options['custom_style']) {
-    if (!function_exists('athlios_wow_recruit_widget_enqueue_styles')) {
-        function athlios_wow_recruit_widget_enqueue_styles()
-        {
-            global $athlios_wow_recruit_options;
-            wp_enqueue_style('wr_layout', plugins_url('css/style' . (($athlios_wow_recruit_options['theme'] != '') ? '-' . $athlios_wow_recruit_options['theme'] : '') . '.css', WR__FILE__), array(), '2.0');
-        }
-    }
+add_action('init', 'athlios_wow_recruit_widget_enqueue_styles');
 
-    add_action('init', 'athlios_wow_recruit_widget_enqueue_styles');
+function athlios_wow_recruit_widget_enqueue_styles()
+{
+    global $athlios_wow_recruit_options;
+
+    wp_enqueue_style('wr_layout', plugins_url('css/style' . (($athlios_wow_recruit_options['theme'] != '') ? '-' . $athlios_wow_recruit_options['theme'] : '') . '.css', ATHLIOS_WOW_RECRUIT_FILE), array(), '2.1');
 }
 
 $athlios_wow_recruit_display_closed = !empty($athlios_wow_recruit_options['display_closed']);
