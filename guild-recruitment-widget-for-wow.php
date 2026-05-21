@@ -3,7 +3,7 @@
  * Plugin Name:       Guild Recruitment Widget for WoW
  * Plugin URI:        https://gordian-knot.eu
  * Description:       Display your guild recruitment priorities for a World of Warcraft guild in a sidebar widget.
- * Version:           2.1
+ * Version:           2.1.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Athlios

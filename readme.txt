@@ -3,9 +3,9 @@ Contributors: Athlios
 Donate Link: https://www.paypal.com/paypalme/athlios
 Tags: WOW, Warcraft, Guild, World of Warcraft, Recruitment
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.1
+Stable tag: 2.1.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,6 +49,9 @@ If you found bugs or want to suggest improvements, please open an issue on the p
 2. Dark theme, small icons
 
 == Changelog ==
+
+= 2.1.1 =
+* update readme metadata for WordPress 7.0 compatibility
 
 = 2.1 =
 * added a Settings link on the Plugins screen before Deactivate
